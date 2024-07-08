@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+    <script src="https://unpkg.com/primevue/umd/primevue.min.js"></script>
+    <script src="https://unpkg.com/@primevue/themes/umd/aura.min.js"></script>    
+    <link href="https://unpkg.com/primeicons/primeicons.css" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+    <title>Prime Event Manager</title>
+</head>
+
+<body>
+
+    <div id="app">
+        <p-confirmdialog></p-confirmdialog>
+        <p-toast position="top-right"></p-toast>
+        <p-panel header="Prime Event Manager">
+            An Event Manager built with Vue.js and PrimeVue
+        </p-panel>
+        <p-button label="Add Event" class="new-button" @click="newEvent = true" icon="pi pi-plus-circle"></p-button>
+        <p-dialog v-model:visible="newEvent" modal header="New Event">
+            <div>
+                <p-inputtext v-model.trim="title" autocomplete="off" placeholder="Title" @change="title=title.toUpperCase()" maxlength="20" />
+            </div>
+            <div>
+                <p-select v-model="type" :options="eventTypes" placeholder="Type"></p-select>
+            </div>
+            <div>
+                <p-datepicker v-model="date" dateFormat="dd/mm/yy" placeholder="Date" fluid></p-datepicker>
+            </div>
+            <div>
+                <p-textarea v-model.trim="description" rows="5" cols="30" maxlength="100" placeholder="Description"></p-textarea>
+            </div>            
+            <div class="actions">
+                <p-button type="button" label="Cancel" severity="secondary" @click="clearNewEvent" icon="pi pi-stop-circle"></p-button>
+                <p-button type="button" label="Save" @click="save" icon="pi pi-save"></p-button>
+            </div>
+            <div>
+                <p-message severity="error" v-if="hasErrors" :closable="false">
+                    <i class="pi pi-exclamation-triangle"></i> Fill in all fields
+                </p-message>
+            </div>
+        </p-dialog>
+        <p-dialog v-model:visible="editEvent" modal header="Edit Event">
+            <div>
+                <p-inputtext v-model.trim="titleEdited" autocomplete="off" placeholder="Title" @change="titleEdited=titleEdited.toUpperCase()" maxlength="20" />
+            </div>
+            <div>
+                <p-select v-model="typeEdited" :options="eventTypes" placeholder="Type"></p-select>
+            </div>
+            <div>
+                <p-datepicker v-model="dateEdited" dateFormat="dd/mm/yy" placeholder="Date" fluid></p-datepicker>
+            </div>
+            <div>
+                <p-textarea v-model.trim="descriptionEdited" rows="5" cols="30" maxlength="100" placeholder="Description"></p-textarea>
+            </div>            
+            <div class="actions">
+                <p-button type="button" label="Cancel" severity="secondary" @click="clearEditEvent" icon="pi pi-stop-circle"></p-button>
+                <p-button type="button" label="Update" @click="update" icon="pi pi-save"></p-button>
+            </div>
+            <div>
+                <p-message severity="error" v-if="hasErrors" :closable="false">
+                    <i class="pi pi-exclamation-triangle"></i> Fill in all fields
+                </p-message>
+            </div>
+        </p-dialog>
+        <p-panel header="Events">
+            <div class="container-events">
+                <p-card v-for="event in events" v-cloak>
+                    <template #header>
+                        <img :alt="event.type" :title="event.type + ' EVENT'" :src="'./images/' + event.type.toLowerCase() + '.jpg'">
+                    </template>
+                    <template #title>{{ event.title }}</template>
+                    <template #subtitle>{{ new Date(event.date).toLocaleDateString() }}</template>
+                    <template #content>
+                        <p>{{ event.description }}</p>
+                    </template>
+                    <template #footer>
+                        <div class="actions">
+                            <p-button label="Delete" severity="danger" @click="deleteEvent(event.id)" outlined icon="pi pi-trash"></p-button>
+                            <p-button label="Edit" icon="pi pi-pen-to-square" @click="edit(event.id)"></p-button>
+                        </div>
+                    </template>
+                </p-card>
+            </div>
+            <p-message severity="warn" v-if="events.length === 0">There are no events</p-message>
+            <p-message v-else>{{ events.length === 1 ? 'There is 1 event' : 'There are ' + events.length + ' events' }}</p-message>
+        </p-panel>
+    </div>
+    
+    <script src="app.js"></script>
+    
+</body>
+
+</html>

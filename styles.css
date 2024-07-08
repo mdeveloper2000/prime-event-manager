@@ -1,0 +1,55 @@
+body {
+    background-color: var(--p-primary-900);
+}
+
+#app {
+    width: 80%;
+    margin: 0 auto;
+}
+
+.new-button {
+    margin-bottom: 15px;    
+}
+
+.p-inputtext, .p-select, .p-message, .p-textarea, .p-button, .p-card {
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+.actions .p-button:last-of-type {
+    margin-left: 20px;
+}
+
+.p-dialog .p-inputtext, .p-select, .p-textarea {
+    width: 100%;
+}
+
+textarea {
+    resize: none;
+}
+
+img {
+    height: 200px;
+    width: 100%;
+}
+
+.container-events {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+}
+
+.p-panel:last-of-type {
+    background-color: var(--p-primary-50);
+    margin-bottom: 100px;
+}
+
+.p-dialog {
+    width: 30rem;
+}
+
+.p-card {
+    width: 18rem;
+    overflow: hidden;
+    word-wrap: break-word;
+}
